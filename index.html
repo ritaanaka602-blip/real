@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f8f1e7" />
+  <title>Wedding Invitation | Emma & Daniel</title>
+
+  <style>
+    /* =========================================================
+       WEDDING INVITATION
+       Frontend only — HTML + CSS + Vanilla JavaScript
+       ========================================================= */
+
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
+
+    :root {
+      --ivory: #fbf7f0;
+      --cream: #f3eadc;
+      --champagne: #d8b47a;
+      --gold: #b88a44;
+      --gold-light: #ead3a8;
+      --blush: #e8c8c2;
+      --burgundy: #642f36;
+      --green: #30483c;
+      --dark: #29231f;
+      --white: #fffdf9;
+
+      --serif: "Cormorant Garamond", Georgia, serif;
+      --sans: "Montserrat", Arial, sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--ivory);
+      color: var(--dark);
+      font-family: var(--sans);
+      overflow-x: hidden;
+    }
+
+    body.locked {
+      overflow: hidden;
+    }
+
+    button,
+    a {
+      font: inherit;
+    }
+
+    /* =========================================================
+       LOADER
+       ========================================================= */
+
+    .loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background:
+        radial-gradient(circle at center, #fffaf3, #eee0cf);
+      display: grid;
+      place-items: center;
+      transition: opacity 1s ease, visibility 1s ease;
+    }
+
+    .loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loader-inner {
+      text-align: center;
+    }
+
+    .loader-ring {
+      width: 70px;
+      height: 70px;
+      border: 1px solid rgba(184, 138, 68, .25);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 1.3s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    .loader p {
+      font-family: var(--serif);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: var(--gold);
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* =========================================================
+       ENVELOPE INTRO
+       ========================================================= */
+
+    .intro {
+      position: fixed;
+      inset: 0;
+      z-index: 5000;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255,255,255,.9), transparent 35%),
+        linear-gradient(135deg, #f9f1e7, #e9d7c3);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      transition:
+        opacity 1s ease,
+        visibility 1s ease;
+    }
+
+    .intro.opened {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .intro-content {
+      position: relative;
+      width: min(90vw, 600px);
+      text-align: center;
+      z-index: 3;
+    }
+
+    .intro-small {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 5px;
+      color: var(--gold);
+      margin-bottom: 25px;
+    }
+
+    .envelope {
+      position: relative;
+      width: min(82vw, 460px);
+      height: min(55vw, 300px);
+      min-height: 230px;
+      margin: 0 auto 35px;
+      perspective: 1200px;
+    }
+
+    .envelope-back {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(145deg, #eee0cc, #d8c0a2);
+      border-radius: 5px;
+      box-shadow:
+        0 30px 60px rgba(80, 54, 30, .18),
+        0 5px 15px rgba(80, 54, 30, .1);
+    }
+
+    .envelope-back::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(145deg, transparent 49.7%, rgba(120,80,40,.12) 50%, transparent 50.4%),
+        linear-gradient(215deg, transparent 49.7%, rgba(120,80,40,.12) 50%, transparent 50.4%);
+    }
+
+    .envelope-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60%;
+      background: linear-gradient(145deg, #f1e4d2, #d9c1a3);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: top center;
+      z-index: 5;
+      transition: transform 1.4s cubic-bezier(.2,.7,.2,1);
+      backface-visibility: hidden;
+    }
+
+    .envelope.open .envelope-flap {
+      transform: rotateX(180deg);
+      z-index: 1;
+    }
+
+    .invitation-card {
+      position: absolute;
+      width: 78%;
+      height: 88%;
+      left: 11%;
+      bottom: 3%;
+      background: var(--white);
+      border: 1px solid rgba(184, 138, 68, .25);
+      box-shadow: 0 15px 30px rgba(60, 40, 20, .15);
+      z-index: 2;
+      transition: transform 1.4s cubic-bezier(.2,.7,.2,1);
+    }
